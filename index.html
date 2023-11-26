@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Asistencia</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+</head>
+<body>
+
+  <div class="container mt-5">
+    <h1 class="mb-4">Gestión de Alumnos y Asistencias</h1>
+    
+    <div class="mb-4">
+      <button class="btn btn-primary me-2" onclick="agregarAlumno()">Agregar Alumno</button>
+      <!-- <button class="btn btn-info" onclick="calcularAsistenciaAlumno()">Calcular asisetncia por alumno</button> -->
+    </div>
+
+    <!-- Lista de Alumnos -->
+    <ul id="alumnosLista" class="list-group mb-4">
+      <!-- Aquí se mostrará la lista de alumnos -->
+    </ul>
+
+    <div id="output"></div>
+
+    <div class="mt-5">
+      <h2>Calculadora de Promedios de Asistencias</h2>
+      <div>
+        <label for="diasHabiles">Días Hábiles:</label>
+        <input type="number" id="diasHabiles">
+      </div>
+      <div>
+        <label for="cantAlF">Cantidad de Alumnos Femeninos:</label>
+        <input type="number" id="cantAlF">
+      </div>
+      <div>
+        <label for="inasF">Inasistencias Femeninas:</label>
+        <input type="number" id="inasF">
+      </div>
+      <div>
+        <label for="cantAlM">Cantidad de Alumnos Masculinos:</label>
+        <input type="number" id="cantAlM">
+      </div>
+      <div>
+        <label for="inasM">Inasistencias Masculinas:</label>
+        <input type="number" id="inasM">
+      </div>
+      <button class="btn btn-primary mt-3" onclick="calcularPromediosAsistencias()">Calcular</button>
+      <div id="resultadoCalculadora"></div>
+    </div>
+  </div>
+
+
+
+
+     <!-- -----------------Scripts---------------------     -->
+     <script src="js/script.js"></script>
+     <script src="js/bootstrap.js"></script>
+     <script src="js/bootstrap.min.js"></script>
+</body>
+</html>
