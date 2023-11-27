@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora de Asistencia</title>
     <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
 
@@ -12,7 +13,7 @@
     <h1 class="mb-4">Gestión de Alumnos y Asistencias</h1>
     
     <div class="mb-4">
-      <button class="btn btn-primary me-2" onclick="agregarAlumno()">Agregar Alumno</button>
+      <button class="btn custom-btn-primary me-2" onclick="agregarAlumno()">Agregar Alumno</button>
       <!-- <button class="btn btn-info" onclick="calcularAsistenciaAlumno()">Calcular asisetncia por alumno</button> -->
     </div>
 
@@ -23,31 +24,33 @@
 
     <div id="output"></div>
 
-    <div class="mt-5">
+    <div class="mt-7">
       <h2>Calculadora de Promedios de Asistencias</h2>
-      <div>
-        <label for="diasHabiles">Días Hábiles:</label>
-        <input type="number" id="diasHabiles">
+      <div class="input-group">
+          <label for="diasHabiles" class="input-label">Días Hábiles:</label>
+          <input type="number" id="diasHabiles" class="input-field">
       </div>
-      <div>
-        <label for="cantAlF">Cantidad de Alumnos Femeninos:</label>
-        <input type="number" id="cantAlF">
+      <div class="input-group">
+          <label for="cantAlF" class="input-label">Cantidad de Alumnos Femeninos:</label>
+          <input type="number" id="cantAlF" class="input-field">
       </div>
-      <div>
-        <label for="inasF">Inasistencias Femeninas:</label>
-        <input type="number" id="inasF">
+      <div class="input-group">
+          <label for="inasF" class="input-label">Inasistencias Femeninas:</label>
+          <input type="number" id="inasF" class="input-field">
       </div>
-      <div>
-        <label for="cantAlM">Cantidad de Alumnos Masculinos:</label>
-        <input type="number" id="cantAlM">
+      <div class="input-group">
+          <label for="cantAlM" class="input-label">Cantidad de Alumnos Masculinos:</label>
+          <input type="number" id="cantAlM" class="input-field">
       </div>
-      <div>
-        <label for="inasM">Inasistencias Masculinas:</label>
-        <input type="number" id="inasM">
+      <div class="input-group">
+          <label for="inasM" class="input-label">Inasistencias Masculinas:</label>
+          <input type="number" id="inasM" class="input-field">
       </div>
-      <button class="btn btn-primary mt-3" onclick="calcularPromediosAsistencias()">Calcular</button>
+      <button class="btn custom-btn-primary mt-3" onclick="calcularPromediosAsistencias()">Calcular</button>
       <div id="resultadoCalculadora"></div>
-    </div>
+  </div>
+  
+  
   </div>
 
 
