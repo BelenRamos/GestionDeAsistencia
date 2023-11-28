@@ -271,7 +271,7 @@ function mostrarListaAlumnos() {
     };
 
     const btnCalcularAsistencia = document.createElement('button');
-    btnCalcularAsistencia.classList.add('btn', 'btn-info');
+    btnCalcularAsistencia.classList.add('btn', 'btn-custom-1');
     btnCalcularAsistencia.textContent = 'Calcular Asistencia';
     btnCalcularAsistencia.onclick = function() {
       mostrarAsistenciaAlumno(alumno.nombre);

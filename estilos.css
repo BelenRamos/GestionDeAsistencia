@@ -28,6 +28,11 @@
     border-radius: 3px; /* Bordes redondeados */
 }
 
+.btn-custom-1{
+    background-color: #fac3a5; /* Color personalizado para el botón */
+    border-color: #e48368;
+}
+
 
 
 
