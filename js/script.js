@@ -98,22 +98,30 @@ function calcularPromediosAsistencias() {
 }
 
 
+////////////////////////Funciones para gestion de alumnos
 
-// Funciones para gestion de alumnos
-function alumno(nombre, edad, genero) {
+function alumno(nombre, apellido, edad, genero) {
   this.nombre = nombre;
+  this.apellido = apellido;
   this.edad = edad;
   this.genero = genero;
   this.asistencia = [0];
 }
 
-
 function agregarAlumno() {
-  let nombre = prompt("Ingrese el nombre del alumno:");
-  let esPalabra = containsOnlyLetters(nombre);
+  let nombre = prompt("Ingrese el NOMBRE del alumno:");
+  let esNombre = containsOnlyLetters(nombre);
   
-  if (esPalabra == false) {
-    console.log("Error: No puede haber números en el nombre");
+  if (!esNombre) {
+    console.log("Error: El nombre debe contener solo letras");
+    return;
+  }
+
+  let apellido = prompt("Ingrese el APELLIDO del alumno:");
+  let esApellido = containsOnlyLetters(apellido);
+  
+  if (!esApellido) {
+    console.log("Error: El apellido debe contener solo letras");
     return;
   }
 
@@ -133,16 +141,17 @@ function agregarAlumno() {
     return;
   }
 
-  const alumnoExistente = alumnos.find(alumno => alumno.nombre === nombre);
+  const alumnoExistente = alumnos.find(alumno => alumno.nombre === nombre && alumno.apellido === apellido);
   if (!alumnoExistente) {
     const nuevoAlumno = {
       nombre: nombre,
+      apellido: apellido,
       edad: edad,
       genero: genero,
       asistencia: [0]
     };
 
-    alumnos = [...alumnos, nuevoAlumno]; // Utilizando spread operator para agregar el nuevo alumno al arreglo
+    alumnos.push(nuevoAlumno);
     console.log("¡Alumno agregado exitosamente!");
     guardarAlumnosEnStorage();
     mostrarListaAlumnos();
@@ -151,22 +160,20 @@ function agregarAlumno() {
   }
 }
 
-
-function eliminarAlumno(nombre) {
-  const confirmar = confirm(`¿Estás seguro de eliminar al alumno ${nombre}?`);
+function eliminarAlumno(nombre, apellido) {
+  const confirmar = confirm(`¿Estás seguro de eliminar al alumno ${nombre} ${apellido}?`);
   if (confirmar) {
-    alumnos = [...alumnos.filter(alumno => alumno.nombre !== nombre)];
+    alumnos = alumnos.filter(alumno => alumno.nombre !== nombre || alumno.apellido !== apellido);
     guardarAlumnosEnStorage();
     mostrarListaAlumnos(); // Mostrar la lista actualizada después de eliminar
-    console.log(`Alumno ${nombre} eliminado con éxito.`);
+    console.log(`Alumno ${nombre} ${apellido} eliminado con éxito.`);
   }
 }
 
-
-function actualizarAlumno(nombre) {
-  let esPalabra = containsOnlyLetters(nombre);
-  if (esPalabra == false) {
-    console.log("Error: No puede haber números en el nombre");
+function actualizarAlumno(nombre, apellido) {
+  let esPalabra = containsOnlyLetters(nombre) && containsOnlyLetters(apellido);
+  if (!esPalabra) {
+    console.log("Error: El nombre y el apellido deben contener solo letras");
     return;
   }
 
@@ -188,12 +195,13 @@ function actualizarAlumno(nombre) {
 
   const alumnoActualizado = {
     nombre: nombre,
+    apellido: apellido,
     edad: edad,
     genero: genero,
-    asistencia: alumnos.find(alumno => alumno.nombre === nombre)?.asistencia ?? [0]
+    asistencia: alumnos.find(alumno => alumno.nombre === nombre && alumno.apellido === apellido)?.asistencia ?? [0]
   };
 
-  const index = alumnos.findIndex(alumno => alumno.nombre === nombre);
+  const index = alumnos.findIndex(alumno => alumno.nombre === nombre && alumno.apellido === apellido);
   if (index !== -1) {
     // Actualizar los datos del alumno utilizando spread operator
     alumnos = [
@@ -203,34 +211,45 @@ function actualizarAlumno(nombre) {
     ];
     guardarAlumnosEnStorage();
     mostrarListaAlumnos(); 
-    console.log(`Alumno ${nombre} actualizado con éxito.`);
+    console.log(`Alumno ${nombre} ${apellido} actualizado con éxito.`);
   } else {
-    console.log(`Error: No se encontró al alumno ${nombre}.`);
+    console.log(`Error: No se encontró al alumno ${nombre} ${apellido}.`);
   }
 }
 
+function cargarAsistencia(nombre, apellido, presente) {
+  let esPalabra = containsOnlyLetters(nombre) && containsOnlyLetters(apellido);
+  if (!esPalabra) {
+    console.log("Error: El nombre y el apellido deben contener solo letras");
+    return;
+  }
 
-function cargarAsistencia(nombre, presente) {
-  const index = alumnos.findIndex(alumno => alumno.nombre === nombre);
+  const index = alumnos.findIndex(alumno => alumno.nombre === nombre && alumno.apellido === apellido);
   if (index !== -1) {
-    const fechaActual = new Date().toISOString().split('T')[0]; // Obtiene la fecha actual en formato 'YYYY-MM-DD'
+    const fechaActual = new Date().toISOString().split('T')[0]; // para tener la fecha actual en formato 'YYYY-MM-DD'
 
     // Registrar la asistencia para el alumno
     alumnos[index].asistencia.push({ fecha: fechaActual, presente: presente });
-    console.log(`Asistencia registrada para el alumno ${nombre}. Fecha: ${fechaActual}. Estado: ${presente ? 'Presente' : 'Ausente'}.`);
+    console.log(`Asistencia registrada para el alumno ${nombre} ${apellido}. Fecha: ${fechaActual}. Estado: ${presente ? 'Presente' : 'Ausente'}.`);
     guardarAlumnosEnStorage();
-    // Mostrar la lista actualizada de alumnos después de registrar la asistencia
+    // se muestra la lista actualizada de alumnos después de registrar la asistencia
     mostrarListaAlumnos();
+  } else {
+    console.log(`Error: No se encontró al alumno ${nombre} ${apellido}.`);
   }
 }
 
+function calcularAsistenciaAlumno(nombre, apellido) {
+  let esPalabra = containsOnlyLetters(nombre) && containsOnlyLetters(apellido);
+  if (!esPalabra) {
+    console.log("Error: El nombre y el apellido deben contener solo letras");
+    return;
+  }
 
-function calcularAsistenciaAlumno(nombre) {
-  const alumno = alumnos.find(alumno => alumno.nombre === nombre);
-  const totalDias = alumno?.asistencia?.length ?? 0;
-  const diasPresente = alumno?.asistencia?.filter(dia => dia.presente)?.length ?? 0;
-
+  const alumno = alumnos.find(alumno => alumno.nombre === nombre && alumno.apellido === apellido);
   if (alumno) {
+    const totalDias = alumno?.asistencia?.length ?? 0;
+    const diasPresente = alumno?.asistencia?.filter(dia => dia.presente)?.length ?? 0;
     const porcentajeAsistencia = (diasPresente / totalDias) * 100;
     return porcentajeAsistencia.toFixed(2) + "%";
   } else {
@@ -238,10 +257,9 @@ function calcularAsistenciaAlumno(nombre) {
   }
 }
 
-
 function mostrarListaAlumnos() {
   const listaAlumnos = document.getElementById('alumnosLista');
-  listaAlumnos.innerHTML = ''; // Limpiar la lista antes de mostrar los nuevos alumnos
+  listaAlumnos.innerHTML = ''; // Limpia la lista 
 
   alumnos.forEach(alumno => {
     const listItem = document.createElement('li');
@@ -249,6 +267,9 @@ function mostrarListaAlumnos() {
     
     const nombreAlumno = document.createElement('span');
     nombreAlumno.textContent = alumno.nombre;
+
+    const apellidoAlumno = document.createElement('span');
+    apellidoAlumno.textContent = alumno.apellido;
 
     const generoAlumno = document.createElement('span');
     generoAlumno.textContent = alumno.genero;
@@ -260,38 +281,39 @@ function mostrarListaAlumnos() {
     btnPresente.classList.add('btn', 'btn-custom-Presente', 'me-2');
     btnPresente.textContent = 'Presente';
     btnPresente.onclick = function() {
-      cargarAsistencia(alumno.nombre, true);
+      cargarAsistencia(alumno.nombre, alumno.apellido, true); 
     };
 
     const btnAusente = document.createElement('button');
     btnAusente.classList.add('btn', 'btn-custom-Ausente');
     btnAusente.textContent = 'Ausente';
     btnAusente.onclick = function() {
-      cargarAsistencia(alumno.nombre, false);
+      cargarAsistencia(alumno.nombre, alumno.apellido, false); 
     };
-
+    
     const btnCalcularAsistencia = document.createElement('button');
     btnCalcularAsistencia.classList.add('btn', 'btn-custom-CA');
     btnCalcularAsistencia.textContent = 'Calcular Asistencia';
     btnCalcularAsistencia.onclick = function() {
-      mostrarAsistenciaAlumno(alumno.nombre);
+      mostrarAsistenciaAlumno(alumno.nombre, alumno.apellido);
     };
 
     const btnEliminarAlumno = document.createElement('button');
     btnEliminarAlumno.classList.add('btn', 'btn-danger', 'me-2');
     btnEliminarAlumno.textContent = 'Eliminar';
     btnEliminarAlumno.onclick = function() {
-      eliminarAlumno(alumno.nombre);
+      eliminarAlumno(alumno.nombre, alumno.apellido);
     };
 
     const btnActualizarAlumno = document.createElement('button');
     btnActualizarAlumno.classList.add('btn', 'btn-custom-Actualizar');
     btnActualizarAlumno.textContent = 'Actualizar';
     btnActualizarAlumno.onclick = function() {
-      actualizarAlumno(alumno.nombre);
+      actualizarAlumno(alumno.nombre, alumno.apellido);
     };
 
     listItem.appendChild(nombreAlumno);
+    listItem.appendChild(apellidoAlumno);
     listItem.appendChild(generoAlumno);
     listItem.appendChild(edadAlumno);
     listItem.appendChild(btnPresente);
@@ -303,8 +325,8 @@ function mostrarListaAlumnos() {
   });
 }
 
-function mostrarAsistenciaAlumno(nombre) {
-  const index = alumnos.findIndex(alumno => alumno.nombre === nombre);
+function mostrarAsistenciaAlumno(nombre, apellido) {
+  const index = alumnos.findIndex(alumno => alumno.nombre === nombre && alumno.apellido === apellido);
   if (index !== -1) {
     const asistencia = alumnos[index].asistencia;
     const totalDias = asistencia.length;
@@ -313,29 +335,21 @@ function mostrarAsistenciaAlumno(nombre) {
     
     // Mostrar el resultado en la interfaz
     const output = document.getElementById('output');
-    output.innerHTML = `Asistencia de ${nombre}: ${porcentajeAsistencia.toFixed(2)}%`;
+    output.innerHTML = `Asistencia de ${nombre} ${apellido}: ${porcentajeAsistencia.toFixed(2)}%`;
   } else {
     const output = document.getElementById('output');
-    output.innerHTML = "El alumno no existe.";
+    output.innerHTML = `No se encontró al alumno ${nombre} ${apellido}.`;
   }
 }
 
-// Función para guardar los datos de los alumnos en localStorage
 function guardarAlumnosEnStorage() {
   localStorage.setItem('alumnosData', JSON.stringify(alumnos));
 }
 
-// Función para cargar los datos de los alumnos desde localStorage
 function cargarAlumnosDesdeStorage() {
   const data = localStorage.getItem('alumnosData');
   if (data) {
     alumnos = JSON.parse(data);
-    // Luego de cargar los datos, puedes actualizar la interfaz si es necesario
     mostrarListaAlumnos();
   }
 }
-
-
-
-
-
