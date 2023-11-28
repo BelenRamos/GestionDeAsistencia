@@ -110,61 +110,9 @@ function alumno(nombre, edad, genero) {
 
 function agregarAlumno() {
   let nombre = prompt("Ingrese el nombre del alumno:");
-  // LLamo a funcion para validar que solo haya letras en el nombre
-  let esPalabra= containsOnlyLetters(nombre);
-  if (esPalabra==false) {
-    console.log("Error: No puede haber numeros en el nombre");
-    return;
-  }
-
-  // Validar que el genero sea 'femenino' o 'masculino' (mayúsculas y camelCase)
-  let genero = prompt("Ingrese el género del alumno: (F/M)");
-  if (genero.toLowerCase() === 'f' || genero.toLowerCase() === 'm') {
-    genero = genero.toUpperCase(); // Convertir a mayúscula
-    genero = genero === 'F' ? 'Femenino' : 'Masculino';
-    console.log(`El género es: ${genero}`);
-  } else {
-    console.log("Error: El género debe ser 'F' o 'M'.");
-  }
-
-
-  let edad = parseInt(prompt("Ingrese la edad del alumno:"));
-  // Validar que la edad sea un número
-  if (typeof edad !== 'number' || isNaN(edad)) {
-    console.log("Error: La edad debe ser un número.");
-    return;
-  } 
-
-  // Verificar si el nombre del alumno ya existe
-  const alumnoExistente = alumnos.find(alumno => alumno.nombre === nombre);
-  if (!alumnoExistente) {
-    alumnos.push({ 
-      nombre: nombre, 
-      edad: edad, 
-      genero: genero, 
-      asistencia: [0] 
-    });
-    console.log("¡Alumno agregado exitosamente!");
-  } else {
-    console.log("¡El alumno ya existe!");
-  }
-  guardarAlumnosEnStorage();
-  mostrarListaAlumnos();
-}
-
-function eliminarAlumno(nombre) {
-  const confirmar = confirm(`¿Estás seguro de eliminar al alumno ${nombre}?`);
-  if (confirmar) {
-    alumnos = alumnos.filter(alumno => alumno.nombre !== nombre);
-    guardarAlumnosEnStorage();
-    mostrarListaAlumnos(); // Mostrar la lista actualizada después de eliminar
-    console.log(`Alumno ${nombre} eliminado con éxito.`);
-  }
-}
-
-function actualizarAlumno(nombre) {
-  let esPalabra= containsOnlyLetters(nombre);
-  if (esPalabra==false) {
+  let esPalabra = containsOnlyLetters(nombre);
+  
+  if (esPalabra == false) {
     console.log("Error: No puede haber números en el nombre");
     return;
   }
@@ -176,37 +124,91 @@ function actualizarAlumno(nombre) {
     console.log(`El género es: ${genero}`);
   } else {
     console.log("Error: El género debe ser 'F' o 'M'.");
+    return;
   }
 
   let edad = parseInt(prompt("Ingrese la edad del alumno:"));
   if (typeof edad !== 'number' || isNaN(edad)) {
     console.log("Error: La edad debe ser un número.");
     return;
-  } 
+  }
+
+  const alumnoExistente = alumnos.find(alumno => alumno.nombre === nombre);
+  if (!alumnoExistente) {
+    const nuevoAlumno = {
+      nombre: nombre,
+      edad: edad,
+      genero: genero,
+      asistencia: [0]
+    };
+
+    alumnos = [...alumnos, nuevoAlumno]; // Utilizando spread operator para agregar el nuevo alumno al arreglo
+    console.log("¡Alumno agregado exitosamente!");
+    guardarAlumnosEnStorage();
+    mostrarListaAlumnos();
+  } else {
+    console.log("¡El alumno ya existe!");
+  }
+}
+
+
+function eliminarAlumno(nombre) {
+  const confirmar = confirm(`¿Estás seguro de eliminar al alumno ${nombre}?`);
+  if (confirmar) {
+    alumnos = [...alumnos.filter(alumno => alumno.nombre !== nombre)];
+    guardarAlumnosEnStorage();
+    mostrarListaAlumnos(); // Mostrar la lista actualizada después de eliminar
+    console.log(`Alumno ${nombre} eliminado con éxito.`);
+  }
+}
+
+
+function actualizarAlumno(nombre) {
+  let esPalabra = containsOnlyLetters(nombre);
+  if (esPalabra == false) {
+    console.log("Error: No puede haber números en el nombre");
+    return;
+  }
+
+  let genero = prompt("Ingrese el género del alumno: (F/M)");
+  if (genero.toLowerCase() === 'f' || genero.toLowerCase() === 'm') {
+    genero = genero.toUpperCase(); // Convertir a mayúscula
+    genero = genero === 'F' ? 'Femenino' : 'Masculino';
+    console.log(`El género es: ${genero}`);
+  } else {
+    console.log("Error: El género debe ser 'F' o 'M'.");
+    return;
+  }
+
+  let edad = parseInt(prompt("Ingrese la edad del alumno:"));
+  if (typeof edad !== 'number' || isNaN(edad)) {
+    console.log("Error: La edad debe ser un número.");
+    return;
+  }
+
+  const alumnoActualizado = {
+    nombre: nombre,
+    edad: edad,
+    genero: genero,
+    asistencia: alumnos.find(alumno => alumno.nombre === nombre)?.asistencia ?? [0]
+  };
 
   const index = alumnos.findIndex(alumno => alumno.nombre === nombre);
   if (index !== -1) {
-    // Actualizar los datos del alumno
-    alumnos[index].edad = edad;
-    alumnos[index].genero = genero;
+    // Actualizar los datos del alumno utilizando spread operator
+    alumnos = [
+      ...alumnos.slice(0, index),
+      alumnoActualizado,
+      ...alumnos.slice(index + 1)
+    ];
     guardarAlumnosEnStorage();
-    mostrarListaAlumnos(); // Mostrar la lista actualizada después de actualizar
+    mostrarListaAlumnos(); 
     console.log(`Alumno ${nombre} actualizado con éxito.`);
   } else {
     console.log(`Error: No se encontró al alumno ${nombre}.`);
   }
 }
 
-
-
-/* function cargarAsistencia(nombre, presente) {
-  const index = alumnos.findIndex(alumno => alumno.nombre === nombre);
-  if (index !== -1) {
-    const fechaActual = new Date().toISOString().split('T')[0]; // Obtiene la fecha actual en formato 'YYYY-MM-DD'
-    alumnos[index].asistencia.push({ fecha: fechaActual, presente: presente });
-    console.log(`Asistencia registrada para el alumno ${nombre}.`);
-  }
-} */
 
 function cargarAsistencia(nombre, presente) {
   const index = alumnos.findIndex(alumno => alumno.nombre === nombre);
@@ -224,17 +226,18 @@ function cargarAsistencia(nombre, presente) {
 
 
 function calcularAsistenciaAlumno(nombre) {
-  const index = alumnos.findIndex(alumno => alumno.nombre === nombre);
-  if (index !== -1) {
-    const asistencia = alumnos[index].asistencia;
-    const totalDias = asistencia.length;
-    const diasPresente = asistencia.filter(dia => dia.presente).length;
+  const alumno = alumnos.find(alumno => alumno.nombre === nombre);
+  const totalDias = alumno?.asistencia?.length ?? 0;
+  const diasPresente = alumno?.asistencia?.filter(dia => dia.presente)?.length ?? 0;
+
+  if (alumno) {
     const porcentajeAsistencia = (diasPresente / totalDias) * 100;
     return porcentajeAsistencia.toFixed(2) + "%";
   } else {
     return "El alumno no existe.";
   }
 }
+
 
 function mostrarListaAlumnos() {
   const listaAlumnos = document.getElementById('alumnosLista');
