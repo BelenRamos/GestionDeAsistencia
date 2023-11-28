@@ -342,6 +342,8 @@ function mostrarAsistenciaAlumno(nombre, apellido) {
   }
 }
 
+
+////////////JSON
 function guardarAlumnosEnStorage() {
   localStorage.setItem('alumnosData', JSON.stringify(alumnos));
 }
