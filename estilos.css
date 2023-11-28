@@ -1,7 +1,7 @@
 /* Estilos para los botones y contenedores */
 .custom-btn-primary {
-    background-color: #fac3a5; /* Color personalizado para el botón */
-    border-color: #e48368; /* Color del borde del botón */
+    background-color: #a4afda; 
+    border-color: #44495b;
     
   }
   
@@ -24,15 +24,25 @@
 .input-field {
     width: 100%; /* Ajusta el ancho del campo de entrada al 100% del contenedor */
     padding: 5px; /* Espacio interno del campo de entrada */
-    border: 1px solid #ac9f7c; /* Borde del campo de entrada */
+    border: 1px solid #6b728e; /* Borde del campo de entrada */
     border-radius: 3px; /* Bordes redondeados */
 }
 
-.btn-custom-1{
-    background-color: #fac3a5; /* Color personalizado para el botón */
-    border-color: #e48368;
+.btn-custom-CA{
+    background-color: #7c9d96;
 }
 
+.btn-custom-Presente{
+    background-color: #82927d;
+}
+
+.btn-custom-Ausente{
+    background-color: #f7d060;
+}
+
+.btn-custom-Actualizar{
+    background-color: #ccbe8f;
+}
 
 
 

@@ -257,21 +257,21 @@ function mostrarListaAlumnos() {
     edadAlumno.textContent = alumno.edad;
 
     const btnPresente = document.createElement('button');
-    btnPresente.classList.add('btn', 'btn-success', 'me-2');
+    btnPresente.classList.add('btn', 'btn-custom-Presente', 'me-2');
     btnPresente.textContent = 'Presente';
     btnPresente.onclick = function() {
       cargarAsistencia(alumno.nombre, true);
     };
 
     const btnAusente = document.createElement('button');
-    btnAusente.classList.add('btn', 'btn-danger');
+    btnAusente.classList.add('btn', 'btn-custom-Ausente');
     btnAusente.textContent = 'Ausente';
     btnAusente.onclick = function() {
       cargarAsistencia(alumno.nombre, false);
     };
 
     const btnCalcularAsistencia = document.createElement('button');
-    btnCalcularAsistencia.classList.add('btn', 'btn-custom-1');
+    btnCalcularAsistencia.classList.add('btn', 'btn-custom-CA');
     btnCalcularAsistencia.textContent = 'Calcular Asistencia';
     btnCalcularAsistencia.onclick = function() {
       mostrarAsistenciaAlumno(alumno.nombre);
@@ -285,7 +285,7 @@ function mostrarListaAlumnos() {
     };
 
     const btnActualizarAlumno = document.createElement('button');
-    btnActualizarAlumno.classList.add('btn', 'btn-primary');
+    btnActualizarAlumno.classList.add('btn', 'btn-custom-Actualizar');
     btnActualizarAlumno.textContent = 'Actualizar';
     btnActualizarAlumno.onclick = function() {
       actualizarAlumno(alumno.nombre);
@@ -297,8 +297,8 @@ function mostrarListaAlumnos() {
     listItem.appendChild(btnPresente);
     listItem.appendChild(btnAusente);
     listItem.appendChild(btnCalcularAsistencia);
-    listItem.appendChild(btnEliminarAlumno);
     listItem.appendChild(btnActualizarAlumno);
+    listItem.appendChild(btnEliminarAlumno);
     listaAlumnos.appendChild(listItem);
   });
 }
