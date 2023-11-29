@@ -4,6 +4,8 @@ window.onload = function() {
   cargarAlumnosDesdeStorage();
 }
 
+/////////Funciones para calculculo de la asistencia
+
 function containsOnlyLetters(palabra) {
   let lettersOnlyRegex = /^[a-zA-Z]+$/;
   return lettersOnlyRegex.test(palabra);
@@ -48,7 +50,6 @@ function calcularAsistenciaPerfecta(totalAlumnos, diasHabiles) {
 function calcularPorcentajeAsistencia(asisTotal, asistenciaPerfecta) {
   return (asisTotal / asistenciaPerfecta) * 100;
 }
-
 
 function calcularAsistenciaPromedioTotal() {
   if (alumnos.length === 0) {
@@ -109,7 +110,7 @@ function alumno(nombre, apellido, edad, genero) {
 }
 
 function agregarAlumno() {
-  let nombre = prompt("Ingrese el NOMBRE del alumno:");
+  let nombre = prompt("Ingrese el NOMBRE del alumno (Sin espacios ni simbolos):");
   let esNombre = containsOnlyLetters(nombre);
   
   if (!esNombre) {
@@ -117,7 +118,7 @@ function agregarAlumno() {
     return;
   }
 
-  let apellido = prompt("Ingrese el APELLIDO del alumno:");
+  let apellido = prompt("Ingrese el APELLIDO del alumno (Sin espacios ni simbolos):");
   let esApellido = containsOnlyLetters(apellido);
   
   if (!esApellido) {
